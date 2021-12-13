@@ -23,7 +23,7 @@ class RequestDataPage extends StatelessWidget {
           child: Center(
               child: Row( mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [ Column(children:
-                [ElevatedButton(onPressed:() {return;}, child: const Text("Go back")),],),
+                [ElevatedButton(onPressed:() {Navigator.pop(context);}, child: const Text("Go back")),],),
                   Column(children: const [Text("or")]),
                   Column(children: [ElevatedButton(onPressed:() {return;}, child: const Text("Send request"))],)],) ))
     ],)));

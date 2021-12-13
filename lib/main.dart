@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:willy/assign_executor_page.dart';
+import 'package:willy/images_page.dart';
+import 'package:willy/request_data_page.dart';
+import 'package:willy/voice_instructions_page.dart';
 import 'home_page.dart';
 
 void main() {
@@ -25,7 +29,15 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blueGrey,
       ),
-      home: const MyHomePage(title: 'Willy'),
+      // home: const MyHomePage(title: 'Willy'),
+      routes: {
+        '/': (context) => const MyHomePage(title: "Willy"),
+        '/request-data': (context) => const RequestDataPage(title: "Willy - Request data"),
+        '/voice-instructions': (context) => const VoiceInstructionsPage(title: "Willy - Voice instructions"),
+        '/images': (context) => const ImagesPage(title: "Willy - Images"),
+        '/assign-executor': (context) => const AssignExecutorPage(title: "Willy - Assign executor"),
+      },
+      initialRoute: '/',
     );
   }
 }

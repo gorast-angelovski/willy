@@ -50,7 +50,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         Column(children: const [Text("or")]),
                         Column(children: [ElevatedButton(onPressed:() {return;}, child: const Text("Sign up"))],)],) )),
             Padding(padding: EdgeInsets.only(left:5,right: 5,top:30),
-              child: ElevatedButton(onPressed: () {return;},child: const Padding(padding: EdgeInsets.only(left:15,right:15), child: Text("Request data") )),)
+              child: ElevatedButton(onPressed: () { Navigator.pushNamed(context, '/request-data');},child: const Padding(padding: EdgeInsets.only(left:15,right:15), child: Text("Request data") )),)
           ],
         ),
       ),
