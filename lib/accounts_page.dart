@@ -1,0 +1,76 @@
+import 'package:flutter/material.dart';
+import 'package:willy/account_card.dart';
+
+import 'account.dart';
+
+class AccountsPage extends StatefulWidget {
+  final String title;
+
+  const AccountsPage({required this.title});
+
+  @override
+  State<AccountsPage> createState() => _AccountsPageState();
+}
+
+class _AccountsPageState extends State<AccountsPage> {
+
+  Account account = Account("Facebook", "mail@mail.com", "facebookPassword432");
+  List<Account> accounts = [];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text(widget.title)),
+      body: Center(
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(top: 40, bottom: 20),
+              child: Text(
+                'Accounts',
+                style: Theme.of(context).textTheme.headline6,
+              ),
+            ),
+            const Padding(
+              padding: EdgeInsets.only(top: 20),
+              child: Divider(
+                color: Colors.black,
+                height: 2,
+              ),
+            ),
+            Expanded(
+              child: ListView.builder(
+                // TODO Robert: Replace 2 with accounts.length
+                itemCount: 2,
+                scrollDirection: Axis.vertical,
+                shrinkWrap: true,
+                // TODO Robert: Replace account with accounts[index]
+                itemBuilder: (context, index) => AccountCard(account),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 20, left: 60, right: 60),
+              child: Center(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Column(
+                      children: [
+                        ElevatedButton(
+                          onPressed: () {
+                            return;
+                          },
+                          child: const Text("Add account"),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
