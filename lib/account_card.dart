@@ -21,26 +21,24 @@ class AccountCard extends StatelessWidget {
                 Icons.account_circle,
                 color: Theme.of(context).primaryColorDark,
               ),
-              title: Row(
+              title: Text(
+                _account.getPlatform(),
+                style: const TextStyle(fontWeight: FontWeight.w500),
+              ),
+              trailing: Row(
+                mainAxisSize: MainAxisSize.min,
                 children: [
-                  Column(
-                    children: [
-                      Text(
-                        _account.getPlatform(),
-                        style: const TextStyle(fontWeight: FontWeight.w500),
-                      ),
-                    ],
+                  IconButton(
+                    icon: const Icon(Icons.edit),
+                    onPressed: () {
+                      return;
+                    },
                   ),
-                  // TODO Robert: Position these icons on the right
-                  Column(
-                    children: const [
-                      Icon(Icons.edit),
-                    ],
-                  ),
-                  Column(
-                    children: const [
-                      Icon(Icons.delete),
-                    ],
+                  IconButton(
+                    icon: const Icon(Icons.delete),
+                    onPressed: () {
+                      return;
+                    },
                   ),
                 ],
               ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:willy/account_form.dart';
 import 'package:willy/accounts_page.dart';
 import 'package:willy/assign_executor_page.dart';
 import 'package:willy/images_page.dart';
@@ -40,6 +41,7 @@ class MyApp extends StatelessWidget {
         '/assign-executor': (context) => const AssignExecutorPage(title: "Willy - Assign executor"),
         '/manage-will': (context) => const WillManager(title: "Willy - Manage your will"),
         '/manage-accounts': (context) => const AccountsPage(title: "Willy - Manage your accounts"),
+        '/add-account': (context) => AccountForm(title: 'Willy - Manage your account'),
       },
       initialRoute: '/',
     );

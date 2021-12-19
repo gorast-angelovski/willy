@@ -17,6 +17,13 @@ class _AccountsPageState extends State<AccountsPage> {
   Account account = Account("Facebook", "mail@mail.com", "facebookPassword432");
   List<Account> accounts = [];
 
+  void onAddAccount(String platform, String username, String password) {
+    Account newAccount = Account(platform, username, password);
+    setState(() {
+      accounts.add(newAccount);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,11 +48,11 @@ class _AccountsPageState extends State<AccountsPage> {
             Expanded(
               child: ListView.builder(
                 // TODO Robert: Replace 2 with accounts.length
-                itemCount: 2,
+                itemCount: accounts.length,
                 scrollDirection: Axis.vertical,
                 shrinkWrap: true,
                 // TODO Robert: Replace account with accounts[index]
-                itemBuilder: (context, index) => AccountCard(account),
+                itemBuilder: (context, index) => AccountCard(accounts[index]),
               ),
             ),
             Padding(
@@ -58,7 +65,11 @@ class _AccountsPageState extends State<AccountsPage> {
                       children: [
                         ElevatedButton(
                           onPressed: () {
-                            return;
+                            Navigator.pushNamed(
+                              context,
+                              '/add-account',
+                              arguments: {'onAddAccount': onAddAccount},
+                            );
                           },
                           child: const Text("Add account"),
                         ),
