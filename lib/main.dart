@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:willy/account_form.dart';
+import 'package:willy/accounts_page.dart';
 import 'package:willy/assign_executor_page.dart';
 import 'package:willy/images_page.dart';
 import 'package:willy/request_data_page.dart';
 import 'package:willy/voice_instructions_page.dart';
+import 'package:willy/will_manager_page.dart';
 import 'home_page.dart';
 
 void main() {
@@ -36,6 +39,9 @@ class MyApp extends StatelessWidget {
         '/voice-instructions': (context) => const VoiceInstructionsPage(title: "Willy - Voice instructions"),
         '/images': (context) => const ImagesPage(title: "Willy - Images"),
         '/assign-executor': (context) => const AssignExecutorPage(title: "Willy - Assign executor"),
+        '/manage-will': (context) => const WillManager(title: "Willy - Manage your will"),
+        '/manage-accounts': (context) => const AccountsPage(title: "Willy - Manage your accounts"),
+        '/add-account': (context) => AccountForm(title: 'Willy - Manage your account'),
       },
       initialRoute: '/',
     );
