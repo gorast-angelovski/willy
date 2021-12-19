@@ -47,11 +47,9 @@ class _AccountsPageState extends State<AccountsPage> {
             ),
             Expanded(
               child: ListView.builder(
-                // TODO Robert: Replace 2 with accounts.length
                 itemCount: accounts.length,
                 scrollDirection: Axis.vertical,
                 shrinkWrap: true,
-                // TODO Robert: Replace account with accounts[index]
                 itemBuilder: (context, index) => AccountCard(accounts[index]),
               ),
             ),
