@@ -1,3 +1,5 @@
+import 'package:willy/account.dart';
+
 List<User> users = [
   User("Gorast", "Angelovski", "gorast.angelovski1@gmail.com",
       "Password123!", "ExecutorPin123")
@@ -11,6 +13,9 @@ class User {
   String email;
   String password;
   String executorPin;
+  // List<Account> accounts;
+  // String executorEmail;
+
 
   @override
   String toString() {
