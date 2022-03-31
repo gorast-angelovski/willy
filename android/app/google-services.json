@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "593707162253",
+    "project_id": "willy-56b85",
+    "storage_bucket": "willy-56b85.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:593707162253:android:a9f96c8ad97fb9e5e6e0c4",
+        "android_client_info": {
+          "package_name": "com.willy.willy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "593707162253-kmeq5v3kem2enkof6d0cg019m3er4anb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD7vUtrZaeJzV1j-CpZEjMJPf7QjXn8SsQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "593707162253-kmeq5v3kem2enkof6d0cg019m3er4anb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
