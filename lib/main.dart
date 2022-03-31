@@ -9,6 +9,7 @@ import 'package:willy/sign_in.dart';
 import 'package:willy/sign_up.dart';
 import 'package:willy/voice_instructions_page.dart';
 import 'package:willy/will_manager_page.dart';
+import 'package:willy/wrapper.dart';
 import 'home_page.dart';
 
 
@@ -29,7 +30,7 @@ class MyApp extends StatelessWidget {
       ),
       // home: const MyHomePage(title: 'Willy'),
       routes: {
-        '/': (context) => const MyHomePage(title: "Willy"),
+        '/': (context) => const Wrapper(),
         '/request-data': (context) => const RequestDataPage(title: "Willy - Request data"),
         '/voice-instructions': (context) => const VoiceInstructionsPage(title: "Willy - Voice instructions"),
         '/images': (context) => const ImagesPage(title: "Willy - Images"),

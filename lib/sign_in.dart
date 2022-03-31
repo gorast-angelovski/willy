@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:willy/service/auth_service.dart';
 import 'globals.dart' as globals;
 
 class SignInPage extends StatefulWidget {
@@ -11,6 +12,8 @@ class SignInPage extends StatefulWidget {
 }
 
 class _SignInPageState extends State<SignInPage> {
+
+  final AuthService _authService = AuthService();
   TextEditingController _e = TextEditingController();
   TextEditingController _p = TextEditingController();
   bool _success = false;
@@ -122,6 +125,23 @@ class _SignInPageState extends State<SignInPage> {
                           }
                         },
                         child: const Text("Sign in"),
+                      ),
+                    ),
+                    Expanded(
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          minimumSize: const Size.fromHeight(30), // NEW
+                        ),
+                        onPressed: () async {
+                          dynamic result = await _authService.signInAnon();
+                          if(result == null){
+                            print('error signing in');
+                          } else {
+                            print('signed in');
+                            print(result);
+                          }
+                        },
+                        child: const Text("Sign in anonymously"),
                       ),
                     ),
                     const Padding(
