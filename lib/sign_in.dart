@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:willy/service/auth_service.dart';
 import 'package:willy/shared/loading.dart';
+import 'package:willy/sign_up.dart';
 import 'globals.dart' as globals;
 
 class SignInPage extends StatefulWidget {
@@ -171,7 +172,14 @@ class _SignInPageState extends State<SignInPage> {
                               minimumSize: const Size.fromHeight(25),
                             ),
                             onPressed: () {
-                              Navigator.pushNamed(context, '/sign-up');
+                              // Navigator.pushNamed(context, '/sign-up');
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      SignUpPage(title: "Willy - Sign Up"),
+                                ),
+                              );
                             },
                             child: const Text("Sign up"),
                           ),
