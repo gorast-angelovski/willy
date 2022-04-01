@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:willy/account_card.dart';
-import 'package:willy/service/database_service.dart';
 
 import 'account.dart';
 
@@ -18,12 +17,11 @@ class _AccountsPageState extends State<AccountsPage> {
   Account account = Account("Facebook", "mail@mail.com", "facebookPassword432");
   List<Account> accounts = [];
 
-  Future<void> onAddAccount(String platform, String username, String password) async {
+  void onAddAccount(String platform, String username, String password) {
     Account newAccount = Account(platform, username, password);
     setState(() {
       accounts.add(newAccount);
     });
-    await DatabaseService(uid: 'test').updateUserData('Facebook', 'test@mail.com', 'password1234');
   }
 
   @override

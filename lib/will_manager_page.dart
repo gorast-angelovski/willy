@@ -51,7 +51,8 @@ class WillManager extends StatelessWidget {
                         ),
                         ElevatedButton(
                           onPressed: () {
-                            Navigator.pushNamed(context, '/manage-accounts');
+                            // TODO: enter URL for account's page
+                            return;
                           },
                           child: const Text(
                             "MANAGE ACCOUNTS",
