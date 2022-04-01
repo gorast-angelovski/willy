@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:willy/landing_page.dart';
 import 'package:willy/model/user.dart';
-import 'package:willy/will_manager_page.dart';
 
 import 'home_page.dart';
 
@@ -14,7 +13,7 @@ class Wrapper extends StatelessWidget {
 
     final user = Provider.of<ApplicationUser>(context);
 
-    if (user.uid == 'no-content'){
+    if (user == null){
       return const MyHomePage(
         title: 'Willy',
       );

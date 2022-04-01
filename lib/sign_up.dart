@@ -70,8 +70,7 @@ class _SignUpPageState extends State<SignUpPage> {
         ),
         body: Column(
           children: [
-            Form(
-              key: _formKey,
+            Expanded(
               child: Column(
                 children: [
                   Expanded(
@@ -169,8 +168,8 @@ class _SignUpPageState extends State<SignUpPage> {
                         style: ElevatedButton.styleFrom(
                           minimumSize: const Size.fromHeight(30), // NEW
                         ),
-                        onPressed: () {
-                          setState(() async {
+                        onPressed: () async {
+                          setState(() {
                             _name = _n.text;
                             _surname = _s.text;
                             _email = _e.text;
@@ -179,24 +178,24 @@ class _SignUpPageState extends State<SignUpPage> {
                             // addUser(_name, _surname, _email, _password,
                             //     _executorPin);
                             _loading = true;
-                            dynamic result =
-                                await _auth.registerWithEmailAndPassword(_name,
-                                    _surname, _email, _password, _executorPin);
-                            if (result == null) {
-                              setState(() {
-                                _error = 'Please supply a valid email';
-                                _loading = false;
-                              });
-                            } else {
-                              _n.text = "";
-                              _s.text = "";
-                              _e.text = "";
-                              _p.text = "";
-                              _ep.text = "";
-
-                              Navigator.pushNamed(context, '/landing');
-                            }
                           });
+                          dynamic result =
+                              await _auth.registerWithEmailAndPassword(_name,
+                              _surname, _email, _password, _executorPin);
+                          if (result == null) {
+                            setState(() {
+                              _error = 'Please supply a valid email';
+                              _loading = false;
+                            });
+                          } else {
+                            _n.text = "";
+                            _s.text = "";
+                            _e.text = "";
+                            _p.text = "";
+                            _ep.text = "";
+
+                            Navigator.pushNamed(context, '/landing');
+                          }
                         },
                         child: const Text("Sign up"),
                       ),
