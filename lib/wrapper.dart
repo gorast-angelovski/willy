@@ -13,7 +13,7 @@ class Wrapper extends StatelessWidget {
 
     final user = Provider.of<ApplicationUser>(context);
 
-    if (user == null){
+    if (user.uid == 'no-content'){
       return const MyHomePage(
         title: 'Willy',
       );

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:willy/landing_page.dart';
 import 'package:willy/service/auth_service.dart';
 import 'package:willy/shared/loading.dart';
 import 'package:willy/sign_up.dart';
@@ -127,8 +128,15 @@ class _SignInPageState extends State<SignInPage> {
                                   'Could not sign in with those credentials';
                               _loading = false;
                             });
-                          } else {
-                            Navigator.pushNamed(context, '/landing');
+                          }
+                          else {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    LandingPage(title: "Willy - Welcome"),
+                              ),
+                            );
                           }
                         },
                         // onPressed: () {

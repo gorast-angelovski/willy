@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:willy/will_manager_page.dart';
 import 'globals.dart' as globals;
 
 class LandingPage extends StatefulWidget {
@@ -24,9 +25,9 @@ class _LandingPageState extends State<LandingPage> {
               padding: const EdgeInsets.only(top: 40, bottom: 20),
               child: Text(
                 'Hi ' +
-                    globals.loggedIn.first.name +
-                    ' ' +
-                    globals.loggedIn.first.surname +
+                    // globals.loggedIn.first.name +
+                    // ' ' +
+                    // globals.loggedIn.first.surname +
                     '!',
                 style: Theme.of(context).textTheme.headline5,
               ),
@@ -68,7 +69,13 @@ class _LandingPageState extends State<LandingPage> {
                           minimumSize: const Size.fromHeight(30), // NEW
                         ),
                         onPressed: () {
-                          Navigator.pushNamed(context, '/manage-will');
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    WillManager(title: "Willy - Manage your will"),
+                              )
+                          );
                         },
                         child: const Text("Manage Will"),
                       ),

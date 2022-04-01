@@ -36,6 +36,7 @@ class AuthService {
       AuthResult result = await _firebaseAuth.createUserWithEmailAndPassword(
           email: email, password: password);
       FirebaseUser user = result.user;
+
       // TODO: Setiraj gi drugite atributi za korisnikot
       return _userFromFirebaseUser(user);
     } catch (error) {
