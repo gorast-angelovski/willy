@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:willy/service/auth_service.dart';
+import 'package:willy/shared/loading.dart';
 import 'globals.dart' as globals;
 
 class SignUpPage extends StatefulWidget {
@@ -11,6 +13,10 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
+  final _formKey = GlobalKey<FormState>();
+  final AuthService _auth = AuthService();
+
+  bool _loading = false;
   TextEditingController _n = TextEditingController();
   TextEditingController _s = TextEditingController();
   TextEditingController _e = TextEditingController();
@@ -42,10 +48,12 @@ class _SignUpPageState extends State<SignUpPage> {
   String _email = "";
   String _password = "";
   String _executorPin = "";
+  String _error = "";
 
   addUser(name, surname, email, password, executorPin) {
     setState(() {
-      globals.users.add(globals.User(name, surname, email, password, executorPin));
+      globals.users
+          .add(globals.User(name, surname, email, password, executorPin));
     });
   }
 
@@ -56,71 +64,95 @@ class _SignUpPageState extends State<SignUpPage> {
         primarySwatch: Colors.blueGrey,
       ),
       title: widget.title,
-      home: Scaffold(
+      home: _loading ? Loading() : Scaffold(
         appBar: AppBar(
           title: Text(widget.title),
         ),
         body: Column(
           children: [
-            Expanded(
-              child: ListView(
+            Form(
+              key: _formKey,
+              child: Column(
                 children: [
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(15, 20, 15, 10),
-                    child: TextFormField(
-                      decoration: const InputDecoration(hintText: "Name"),
-                      onChanged: (v) => setState(() {
-                        _name = v;
-                      }),
-                      controller: _n,
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(15, 10, 15, 10),
-                    child: TextFormField(
-                      decoration: const InputDecoration(hintText: "Surname"),
-                      onChanged: (v) => setState(() {
-                        _surname = v;
-                      }),
-                      controller: _s,
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(15, 10, 15, 10),
-                    child: TextFormField(
-                      decoration: const InputDecoration(hintText: "Email"),
-                      onChanged: (v) => setState(() {
-                        _email = v;
-                      }),
-                      controller: _e,
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(15, 10, 15, 10),
-                    child: TextFormField(
-                      obscureText: true,
-                      enableSuggestions: false,
-                      autocorrect: false,
-                      decoration: const InputDecoration(hintText: "Password"),
-                      onChanged: (v) => setState(() {
-                        _password = v;
-                      }),
-                      controller: _p,
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(15, 10, 15, 10),
-                    child: TextFormField(
-                      obscureText: true,
-                      enableSuggestions: false,
-                      autocorrect: false,
-                      decoration: const InputDecoration(
-                          hintText:
-                              "Set Executor Pin (you can change this later)"),
-                      onChanged: (v) => setState(() {
-                        _executorPin = v;
-                      }),
-                      controller: _ep,
+                  Expanded(
+                    child: ListView(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.fromLTRB(15, 20, 15, 10),
+                          child: TextFormField(
+                            validator: (val) =>
+                                val == null ? 'Enter your name' : null,
+                            decoration: const InputDecoration(hintText: "Name"),
+                            onChanged: (v) => setState(() {
+                              _name = v;
+                            }),
+                            controller: _n,
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.fromLTRB(15, 10, 15, 10),
+                          child: TextFormField(
+                            validator: (val) =>
+                                val == null ? 'Enter your surname' : null,
+                            decoration:
+                                const InputDecoration(hintText: "Surname"),
+                            onChanged: (v) => setState(() {
+                              _surname = v;
+                            }),
+                            controller: _s,
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.fromLTRB(15, 10, 15, 10),
+                          child: TextFormField(
+                            validator: (val) =>
+                                val == null ? 'Enter your email' : null,
+                            decoration:
+                                const InputDecoration(hintText: "Email"),
+                            onChanged: (v) => setState(() {
+                              _email = v;
+                            }),
+                            controller: _e,
+                          ),
+                        ),
+                        Text(
+                          _error,
+                          style: TextStyle(color: Colors.red),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.fromLTRB(15, 10, 15, 10),
+                          child: TextFormField(
+                            validator: (val) =>
+                                val == null ? 'Enter a password' : null,
+                            obscureText: true,
+                            enableSuggestions: false,
+                            autocorrect: false,
+                            decoration:
+                                const InputDecoration(hintText: "Password"),
+                            onChanged: (v) => setState(() {
+                              _password = v;
+                            }),
+                            controller: _p,
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.fromLTRB(15, 10, 15, 10),
+                          child: TextFormField(
+                            validator: (val) =>
+                                val == null ? "Enter an executor's pin" : null,
+                            obscureText: true,
+                            enableSuggestions: false,
+                            autocorrect: false,
+                            decoration: const InputDecoration(
+                                hintText:
+                                    "Set Executor Pin (you can change this later)"),
+                            onChanged: (v) => setState(() {
+                              _executorPin = v;
+                            }),
+                            controller: _ep,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],
@@ -138,22 +170,33 @@ class _SignUpPageState extends State<SignUpPage> {
                           minimumSize: const Size.fromHeight(30), // NEW
                         ),
                         onPressed: () {
-                          setState(() {
+                          setState(() async {
                             _name = _n.text;
                             _surname = _s.text;
                             _email = _e.text;
                             _password = _p.text;
                             _executorPin = _ep.text;
-                            addUser(_name, _surname, _email, _password,
-                                _executorPin);
-                            _n.text = "";
-                            _s.text = "";
-                            _e.text = "";
-                            _p.text = "";
-                            _ep.text = "";
-                          });
+                            // addUser(_name, _surname, _email, _password,
+                            //     _executorPin);
+                            _loading = true;
+                            dynamic result =
+                                await _auth.registerWithEmailAndPassword(_name,
+                                    _surname, _email, _password, _executorPin);
+                            if (result == null) {
+                              setState(() {
+                                _error = 'Please supply a valid email';
+                                _loading = false;
+                              });
+                            } else {
+                              _n.text = "";
+                              _s.text = "";
+                              _e.text = "";
+                              _p.text = "";
+                              _ep.text = "";
 
-                          Navigator.pushNamed(context, '/landing');
+                              Navigator.pushNamed(context, '/landing');
+                            }
+                          });
                         },
                         child: const Text("Sign up"),
                       ),
@@ -197,5 +240,3 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 }
-
-

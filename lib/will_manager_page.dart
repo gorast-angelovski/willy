@@ -1,15 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:willy/service/auth_service.dart';
 
 class WillManager extends StatelessWidget {
   final String title;
+  final AuthService _authService = AuthService();
 
-  const WillManager({required this.title});
+  WillManager({required this.title});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(title),
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(Icons.logout),
+            onPressed: () async {
+              await _authService.signOut();
+            },
+          ),
+        ],
       ),
       body: Center(
         child: Column(

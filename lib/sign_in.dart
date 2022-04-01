@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:willy/service/auth_service.dart';
+import 'package:willy/shared/loading.dart';
 import 'globals.dart' as globals;
 
 class SignInPage extends StatefulWidget {
@@ -12,11 +13,11 @@ class SignInPage extends StatefulWidget {
 }
 
 class _SignInPageState extends State<SignInPage> {
-
   final AuthService _authService = AuthService();
   TextEditingController _e = TextEditingController();
   TextEditingController _p = TextEditingController();
   bool _success = false;
+  bool _loading = false;
 
   @override
   void initState() {
@@ -34,6 +35,7 @@ class _SignInPageState extends State<SignInPage> {
 
   String _email = "";
   String _password = "";
+  String _error = "";
 
   bool _userNotFound = false;
 
@@ -57,7 +59,7 @@ class _SignInPageState extends State<SignInPage> {
         primarySwatch: Colors.blueGrey,
       ),
       title: widget.title,
-      home: Scaffold(
+      home: _loading ? Loading() : Scaffold(
         appBar: AppBar(
           title: Text(widget.title),
         ),
@@ -112,37 +114,40 @@ class _SignInPageState extends State<SignInPage> {
                         style: ElevatedButton.styleFrom(
                           minimumSize: const Size.fromHeight(30), // NEW
                         ),
-                        onPressed: () {
+                        onPressed: () async {
                           setState(() {
-                            _email = _e.text;
-                            _password = _p.text;
-                            _success = logInUser(_email, _password);
-                            _e.text = "";
-                            _p.text = "";
+                            _loading = true;
                           });
-                          if (_success) {
+                          dynamic result = await _authService
+                              .signInWithEmailAndPassword(_email, _password);
+                          if (result == null) {
+                            setState(() {
+                              _error =
+                                  'Could not sign in with those credentials';
+                              _loading = false;
+                            });
+                          } else {
                             Navigator.pushNamed(context, '/landing');
                           }
                         },
+                        // onPressed: () {
+                        //   setState(() {
+                        //     _email = _e.text;
+                        //     _password = _p.text;
+                        //     _success = logInUser(_email, _password);
+                        //     _e.text = "";
+                        //     _p.text = "";
+                        //   });
+                        //   if (_success) {
+                        //     Navigator.pushNamed(context, '/landing');
+                        //   }
+                        // },
                         child: const Text("Sign in"),
                       ),
                     ),
-                    Expanded(
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          minimumSize: const Size.fromHeight(30), // NEW
-                        ),
-                        onPressed: () async {
-                          dynamic result = await _authService.signInAnon();
-                          if(result == null){
-                            print('error signing in');
-                          } else {
-                            print('signed in');
-                            print(result);
-                          }
-                        },
-                        child: const Text("Sign in anonymously"),
-                      ),
+                    Text(
+                      _error,
+                      style: const TextStyle(color: Colors.red),
                     ),
                     const Padding(
                       padding: EdgeInsets.only(top: 10),

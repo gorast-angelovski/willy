@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:willy/landing_page.dart';
+import 'package:willy/model/user.dart';
+import 'package:willy/will_manager_page.dart';
 
 import 'home_page.dart';
 
@@ -7,8 +11,15 @@ class Wrapper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MyHomePage(
-      title: 'Willy',
-    );
+
+    final user = Provider.of<ApplicationUser>(context);
+
+    if (user.uid == 'no-content'){
+      return const MyHomePage(
+        title: 'Willy',
+      );
+    } else {
+      return LandingPage(title: "Willy - Welcome");
+    }
   }
 }
