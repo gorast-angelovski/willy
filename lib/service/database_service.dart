@@ -1,22 +1,45 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:willy/model/user.dart';
 
-class DatabaseService{
-
+class DatabaseService {
   final String uid;
-  DatabaseService({required this.uid});
-  // DatabaseService();
 
+  DatabaseService({required this.uid});
 
   //collection reference
-  final CollectionReference accountCollection = Firestore.instance.collection('accounts');
+  final CollectionReference userCollection =
+      Firestore.instance.collection('users');
+  final CollectionReference accountsCollection =
+      Firestore.instance.collection('accounts');
 
-  Future updateUserData(String platform, String usernameOrEmail, String password) async {
-    // return await accountCollection.doc(uid).set({
-    return await accountCollection.document(uid).setData({
+  Future updateUserData(String name, String surname, String executorPin) async {
+    return await userCollection.document(uid).setData({
+      'name': name,
+      'surname': surname,
+      'executorPin': executorPin,
+    });
+  }
+  Future updateAccountsData(String platform, String username, String password) async {
+    return await accountsCollection.document(uid).setData({
       'platform': platform,
-      'usernameOrEmail': usernameOrEmail,
+      'username': username,
       'password': password,
     });
   }
 
+  //user data from snapshot
+  ApplicationUserData _applicationUserDataFromSnapshot(DocumentSnapshot snapshot){
+    return ApplicationUserData(
+        uid: uid,
+        name: snapshot.data['name'],
+        surname: snapshot.data['surname'],
+        executorPin: snapshot.data['executorPin']
+    );
+  }
+
+  //get user doc stream
+  Stream<ApplicationUserData> get applicationUserData{
+    return userCollection.document(uid).snapshots()
+        .map(_applicationUserDataFromSnapshot);
+  }
 }

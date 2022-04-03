@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:willy/service/auth_service.dart';
+import 'package:willy/sign_in.dart';
+import 'package:willy/voice_instructions_page.dart';
+
+import 'accounts_page.dart';
+import 'images_page.dart';
 
 class WillManager extends StatelessWidget {
   final String title;
@@ -17,6 +22,13 @@ class WillManager extends StatelessWidget {
             icon: const Icon(Icons.logout),
             onPressed: () async {
               await _authService.signOut();
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                    const SignInPage(title: 'Willy - Sign In'),
+                  )
+              );
             },
           ),
         ],
@@ -51,7 +63,13 @@ class WillManager extends StatelessWidget {
                         ),
                         ElevatedButton(
                           onPressed: () {
-                            Navigator.pushNamed(context, '/manage-accounts');
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                const AccountsPage(title: "Willy - Manage your accounts"),
+                              ),
+                            );
                           },
                           child: const Text(
                             "MANAGE ACCOUNTS",
@@ -62,7 +80,13 @@ class WillManager extends StatelessWidget {
                         ),
                         ElevatedButton(
                           onPressed: () {
-                            Navigator.pushNamed(context, '/images');
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                const ImagesPage(title: "Willy - Images"),
+                              ),
+                            );
                           },
                           child: const Text(
                             "MANAGE IMAGES",
@@ -73,7 +97,13 @@ class WillManager extends StatelessWidget {
                         ),
                         ElevatedButton(
                           onPressed: () {
-                            Navigator.pushNamed(context, '/voice-instructions');
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    const VoiceInstructionsPage(title: "Willy - Voice instructions"),
+                              ),
+                            );
                           },
                           child: const Text(
                             "MANAGE VOICE INSTRUCTIONS",

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:willy/landing_page.dart';
 import 'package:willy/service/auth_service.dart';
 import 'package:willy/shared/loading.dart';
 import 'package:willy/sign_in.dart';
@@ -195,7 +196,13 @@ class _SignUpPageState extends State<SignUpPage> {
                             _p.text = "";
                             _ep.text = "";
 
-                            Navigator.pushNamed(context, '/landing');
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                  const LandingPage(title: "Willy - Welcome"),
+                                )
+                            );
                           }
                         },
                         child: const Text("Sign up"),

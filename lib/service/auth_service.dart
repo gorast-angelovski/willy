@@ -1,5 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:willy/account.dart';
 import 'package:willy/model/user.dart';
+
+import 'database_service.dart';
 
 class AuthService {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
@@ -37,7 +40,7 @@ class AuthService {
           email: email, password: password);
       FirebaseUser user = result.user;
 
-      // TODO: Setiraj gi drugite atributi za korisnikot
+      await DatabaseService(uid: user.uid).updateUserData(name, surname, executorPin);
       return _userFromFirebaseUser(user);
     } catch (error) {
       print(error.toString());

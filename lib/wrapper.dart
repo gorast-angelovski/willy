@@ -18,7 +18,7 @@ class Wrapper extends StatelessWidget {
         title: 'Willy',
       );
     } else {
-      return LandingPage(title: "Willy - Welcome");
+      return const LandingPage(title: "Willy - Welcome");
     }
   }
 }

@@ -23,7 +23,7 @@ class _AccountsPageState extends State<AccountsPage> {
     setState(() {
       accounts.add(newAccount);
     });
-    await DatabaseService(uid: 'test').updateUserData('Facebook', 'test@mail.com', 'password1234');
+    // await DatabaseService(uid: 'test').updateUserData('Facebook', 'test@mail.com', 'password1234');
   }
 
   @override

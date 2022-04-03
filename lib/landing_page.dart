@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:willy/model/user.dart';
+import 'package:willy/service/database_service.dart';
+import 'package:willy/shared/loading.dart';
 import 'package:willy/will_manager_page.dart';
+import 'assign_executor_page.dart';
 import 'globals.dart' as globals;
 
 class LandingPage extends StatefulWidget {
@@ -14,6 +19,8 @@ class LandingPage extends StatefulWidget {
 class _LandingPageState extends State<LandingPage> {
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<ApplicationUser>(context);
+
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
@@ -21,17 +28,27 @@ class _LandingPageState extends State<LandingPage> {
       body: Center(
         child: Column(
           children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.only(top: 40, bottom: 20),
-              child: Text(
-                'Hi ' +
-                    // globals.loggedIn.first.name +
-                    // ' ' +
-                    // globals.loggedIn.first.surname +
-                    '!',
-                style: Theme.of(context).textTheme.headline5,
-              ),
-            ),
+            StreamBuilder<ApplicationUserData>(
+                stream: DatabaseService(uid: user.uid).applicationUserData,
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    ApplicationUserData? loggedInUserData = snapshot.data;
+
+                    return Padding(
+                      padding: const EdgeInsets.only(top: 40, bottom: 20),
+                      child: Text(
+                        'Hi ' +
+                            loggedInUserData!.name +
+                            ' ' +
+                            loggedInUserData.surname +
+                            '!',
+                        style: Theme.of(context).textTheme.headline5,
+                      ),
+                    );
+                  } else {
+                    return Loading();
+                  }
+                }),
             Text(
               'Welcome to Willy.',
               style: Theme.of(context).textTheme.headline5,
@@ -55,7 +72,12 @@ class _LandingPageState extends State<LandingPage> {
                           maximumSize: const Size.fromHeight(32),
                         ),
                         onPressed: () {
-                          Navigator.pushNamed(context, '/assign-executor');
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const AssignExecutorPage(
+                                    title: "Willy - Assign executor"),
+                              ));
                         },
                         child: const Text("Assign Executor"),
                       ),
@@ -72,10 +94,9 @@ class _LandingPageState extends State<LandingPage> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) =>
-                                    WillManager(title: "Willy - Manage your will"),
-                              )
-                          );
+                                builder: (context) => WillManager(
+                                    title: "Willy - Manage your will"),
+                              ));
                         },
                         child: const Text("Manage Will"),
                       ),
@@ -104,7 +125,6 @@ class _LandingPageState extends State<LandingPage> {
                   color: Colors.black,
                   height: 3,
                 )),
-
           ],
         ),
       ),
