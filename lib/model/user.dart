@@ -9,6 +9,7 @@ class ApplicationUserData {
   final String name;
   final String surname;
   final String executorPin;
+  final String executorEmail = "";
 
   ApplicationUserData(
       {required this.uid,

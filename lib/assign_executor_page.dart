@@ -18,6 +18,7 @@ class _AssignExecutorState extends State<AssignExecutorPage> {
   final _formKey = GlobalKey<FormState>();
 
   late String _currentExecutorPin;
+  late String _currentExecutorEmail;
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +74,20 @@ class _AssignExecutorState extends State<AssignExecutorPage> {
                             validator: (val) =>
                                 val!.isEmpty ? 'Please enter a pin' : null,
                             onChanged: (val) =>
-                                setState(() => _currentExecutorPin=val),
+                                setState(() => _currentExecutorPin = val),
+                          ),
+                          Text(
+                            'Update your executor email address.\nCurrent email is '
+                                + loggedInUserData.executorEmail,
+                            style: TextStyle(fontSize: 18),
+                          ),
+                          TextFormField(
+                            initialValue: loggedInUserData!.executorEmail,
+                            validator: (val) => val!.isEmpty
+                                ? 'Please enter an email address'
+                                : null,
+                            onChanged: (val) =>
+                                setState(() => _currentExecutorEmail = val),
                           ),
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
@@ -83,14 +97,12 @@ class _AssignExecutorState extends State<AssignExecutorPage> {
                             onPressed: () async {
                               if (_formKey.currentState!.validate()) {
                                 await DatabaseService(uid: loggedInUserData.uid)
-                                    .updateUserData(
-                                        loggedInUserData.name,
-                                        loggedInUserData.surname,
-                                        _currentExecutorPin
-                                );
+                                    .updateUserExecutorData(
+                                        _currentExecutorEmail,
+                                        _currentExecutorPin);
                               }
                             },
-                            child: const Text("Update Executor Pin"),
+                            child: const Text("SUBMIT"),
                           ),
                         ],
                       ),

@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
               ),
             ),
         '/request-data': (context) =>
-            const RequestDataPage(title: "Willy - Request data"),
+            RequestDataPage(title: "Willy - Request data"),
         '/voice-instructions': (context) =>
             const VoiceInstructionsPage(title: "Willy - Voice instructions"),
         '/images': (context) => const ImagesPage(title: "Willy - Images"),
