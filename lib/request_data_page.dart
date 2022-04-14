@@ -61,12 +61,11 @@ class RequestDataPage extends StatelessWidget {
                     onPressed: () async {
                       if (_formKey.currentState!.validate()) {
                         _formKey.currentState!.save();
-                        // TODO onPressed da se povika soodvetniot metod
-                        // await EmailService()
-                        //     .methodName(
-                        //   executorEmailController.text,
-                        //   executorPinController.text,
-                        // );
+                        await EmailService()
+                            .sendEmail(
+                          executorEmailController.text,
+                          executorPinController.text,
+                        );
                       }
                       Navigator.pop(context);
                     },
