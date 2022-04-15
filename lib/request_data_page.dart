@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:willy/service/email_service.dart';
+
+import 'model/user.dart';
 
 class RequestDataPage extends StatelessWidget {
   final String title;
@@ -12,6 +15,8 @@ class RequestDataPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<ApplicationUser>(context);
+
     return Scaffold(
       appBar: AppBar(
         title: Text(title),
@@ -66,6 +71,7 @@ class RequestDataPage extends StatelessWidget {
                           if (_formKey.currentState!.validate()) {
                             _formKey.currentState!.save();
                             await EmailService().sendEmail(
+                              user.uid,
                               executorEmailController.text,
                               executorPinController.text,
                             );
