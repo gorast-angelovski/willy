@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:willy/request_data_page.dart';
+import 'package:willy/sign_in.dart';
+import 'package:willy/sign_up.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key, required this.title}) : super(key: key);
@@ -79,7 +82,14 @@ class _MyHomePageState extends State<MyHomePage> {
                       children: [
                         ElevatedButton(
                             onPressed: () {
-                              Navigator.pushNamed(context, '/sign-in');
+                              // Navigator.pushNamed(context, '/sign-in');
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      SignInPage(title: "Willy - Sign In"),
+                                ),
+                              );
                             },
                             child: const Text("Sign in")),
                       ],
@@ -89,7 +99,14 @@ class _MyHomePageState extends State<MyHomePage> {
                       children: [
                         ElevatedButton(
                           onPressed: () {
-                            Navigator.pushNamed(context, '/sign-up');
+                            // Navigator.pushNamed(context, '/sign-up');
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    SignUpPage(title: "Willy - Sign Up"),
+                              ),
+                            );
                           },
                           child: const Text("Sign up"),
                         ),
@@ -103,7 +120,14 @@ class _MyHomePageState extends State<MyHomePage> {
               padding: EdgeInsets.only(left: 5, right: 5, top: 30),
               child: ElevatedButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, '/request-data');
+                  // Navigator.pushNamed(context, '/request-data');
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          RequestDataPage(title: "Willy - Request data"),
+                    ),
+                  );
                 },
                 child: const Padding(
                   padding: EdgeInsets.only(left: 15, right: 15),

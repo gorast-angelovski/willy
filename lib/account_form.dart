@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:willy/service/database_service.dart';
+
+import 'model/user.dart';
 
 class AccountForm extends StatelessWidget {
   final String title;
@@ -13,8 +17,9 @@ class AccountForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final arguments = ModalRoute.of(context)!.settings.arguments as Map;
-    Function(String platform, String username, String password) onAddAccount =
-        arguments['onAddAccount'];
+    // Function(String platform, String username, String password) onAddAccount =
+    //     arguments['onAddAccount'];
+    final user = Provider.of<ApplicationUser>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -25,7 +30,7 @@ class AccountForm extends StatelessWidget {
           child: Column(
             children: [
               Padding(
-                padding: const EdgeInsets.only(top: 40, bottom: 20),
+                padding: const EdgeInsets.only(top: 20, bottom: 0),
                 child: Text(
                   'Add/Edit account',
                   style: Theme.of(context).textTheme.headline6,
@@ -85,18 +90,18 @@ class AccountForm extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.fromLTRB(0, 15, 0, 15),
                       child: ElevatedButton(
-                        onPressed: () {
+                        onPressed: () async {
                           if (_formKey.currentState!.validate()) {
                             _formKey.currentState!.save();
-                            onAddAccount(
-                                platformController.text,
-                                usernameController.text,
-                                passwordController.text);
-
+                            await DatabaseService(uid: user.uid)
+                                .updateAccountsData(
+                                    platformController.text,
+                                    usernameController.text,
+                                    passwordController.text);
                           }
                           Navigator.pop(context);
                         },
-                        child: Text('Save'),
+                        child: const Text('Save'),
                       ),
                     ),
                   ],

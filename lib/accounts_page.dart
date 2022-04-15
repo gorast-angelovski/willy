@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:willy/account_card.dart';
+import 'package:willy/service/database_service.dart';
+import 'package:willy/shared/loading.dart';
 
-import 'account.dart';
+import 'account_form.dart';
+import 'model/account.dart';
+import 'model/user.dart';
 
 class AccountsPage extends StatefulWidget {
   final String title;
@@ -13,26 +18,19 @@ class AccountsPage extends StatefulWidget {
 }
 
 class _AccountsPageState extends State<AccountsPage> {
-
-  Account account = Account("Facebook", "mail@mail.com", "facebookPassword432");
   List<Account> accounts = [];
-
-  void onAddAccount(String platform, String username, String password) {
-    Account newAccount = Account(platform, username, password);
-    setState(() {
-      accounts.add(newAccount);
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<ApplicationUser>(context);
+
     return Scaffold(
       appBar: AppBar(title: Text(widget.title)),
       body: Center(
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.only(top: 40, bottom: 20),
+              padding: const EdgeInsets.only(top: 20, bottom: 0),
               child: Text(
                 'Accounts',
                 style: Theme.of(context).textTheme.headline6,
@@ -46,11 +44,31 @@ class _AccountsPageState extends State<AccountsPage> {
               ),
             ),
             Expanded(
-              child: ListView.builder(
-                itemCount: accounts.length,
-                scrollDirection: Axis.vertical,
-                shrinkWrap: true,
-                itemBuilder: (context, index) => AccountCard(accounts[index]),
+              child: StreamBuilder<List<Account>>(
+                stream: DatabaseService(uid: user.uid).userAccountsData,
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    List<Account>? accounts = snapshot.data;
+                    return ListView.builder(
+                      itemBuilder: (ctx, index) {
+                        return AccountCard(
+                          Account(
+                            accounts![index].getPlatform(),
+                            accounts[index].getUserNameOrEmail(),
+                            accounts[index].getPassword(),
+                          ),
+                        );
+                      },
+                      itemCount: accounts?.length,
+                    );
+                  } else {
+                    return Loading();
+                  }
+                },
+                // itemCount: accounts.length,
+                // scrollDirection: Axis.vertical,
+                // shrinkWrap: true,
+                // itemBuilder: (context, index) => AccountCard(accounts[index]),
               ),
             ),
             Padding(
@@ -62,12 +80,16 @@ class _AccountsPageState extends State<AccountsPage> {
                     Column(
                       children: [
                         ElevatedButton(
-                          onPressed: () {
-                            Navigator.pushNamed(
+                          onPressed: () async {
+                            Navigator.push(
                               context,
-                              '/add-account',
-                              arguments: {'onAddAccount': onAddAccount},
+                              MaterialPageRoute(
+                                builder: (context) => AccountForm(
+                                    title: 'Willy - Manage your account'),
+                              ),
+                              // arguments: {'onAddAccount': onAddAccount},
                             );
+                            // );
                           },
                           child: const Text("Add account"),
                         ),

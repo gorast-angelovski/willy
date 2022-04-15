@@ -1,4 +1,4 @@
-import 'package:willy/account.dart';
+import 'package:willy/model/account.dart';
 
 List<User> users = [
   User("Gorast", "Angelovski", "gorast.angelovski1@gmail.com",
