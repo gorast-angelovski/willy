@@ -9,32 +9,37 @@ class EmailService {
   final CollectionReference userCollection =
       Firestore.instance.collection('users');
 
-  sendEmail(String executorEmail, String executorPin) async {
-    DatabaseService databaseService = DatabaseService(uid: "test");
+  sendEmail(String uid, String executorEmail, String executorPin) async {
+    DatabaseService databaseService = DatabaseService(uid: uid);
     ApplicationUserData user = await databaseService
         .getUserByExecutorEmailAndPin(executorEmail, executorPin);
+    print("uid?" + user.uid);
 
-    Stream<List<Account>> accountStream =
-        databaseService.getUserAccounts(user.uid);
+    Stream<List<Account>> accountStream = databaseService.userAccountsData;
 
-    // TODO: send a list of accounts
-    // List<Account> accounts
-    // List<Account> accounts = await accountStream.;
-    //     DatabaseService(uid: user.uid).userAccountsData.documents;
-    // print(accounts);
-    // Future<List<List<Account>>> accounts() async {
-    //   print(accountStream.first);
-    //   return await accountStream.toList();
-    // }
+    List<Account> accounts = await accountStream.first;
+    // print(accoun);
+    String accountString = 'Your inherited accounts:\n';
+    for (var i = 0; i < accounts.length; i++) {
+      accountString += 'Account' +
+          (i + 1).toString() +
+          '\nPlatform: ' +
+          accounts[i].getPlatform() +
+          '\nUsername: ' +
+          accounts[i].getUserNameOrEmail() +
+          '\nPassword: ' +
+          accounts[i].getPassword() +
+          '\n';
+    }
 
     String username = 'napijse@gmail.com';
-    String password = 'wrongPW';
+    String password = 'kafana54%';
     final smtpServer = gmail(username, password);
     final message = Message()
       ..from = Address(username, 'Willy')
       ..recipients.add(user.executorEmail)
       ..subject = "Digital assets of " + user.name + " " + user.surname
-      ..text = accountStream.toString();
+      ..text = accountString;
 
     try {
       final sendReport = await send(message, smtpServer);
