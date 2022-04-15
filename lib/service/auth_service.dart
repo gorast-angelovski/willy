@@ -1,5 +1,4 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:willy/model/account.dart';
 import 'package:willy/model/user.dart';
 
 import 'database_service.dart';
@@ -40,7 +39,7 @@ class AuthService {
           email: email, password: password);
       FirebaseUser user = result.user;
 
-      await DatabaseService(uid: user.uid).updateUserData(name, surname, executorPin);
+      await DatabaseService(uid: user.uid).updateUserData(name, surname, executorPin, "");
       await DatabaseService(uid: user.uid).updateAccountsData('platform', 'username', 'password');
       return _userFromFirebaseUser(user);
     } catch (error) {

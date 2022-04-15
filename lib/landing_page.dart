@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:willy/model/user.dart';
+import 'package:willy/request_data_page.dart';
 import 'package:willy/service/database_service.dart';
 import 'package:willy/shared/loading.dart';
 import 'package:willy/will_manager_page.dart';
 import 'assign_executor_page.dart';
-import 'globals.dart' as globals;
 
 class LandingPage extends StatefulWidget {
   const LandingPage({Key? key, required this.title}) : super(key: key);
@@ -110,7 +110,11 @@ class _LandingPageState extends State<LandingPage> {
                           minimumSize: const Size.fromHeight(30), // NEW
                         ),
                         onPressed: () {
-                          Navigator.pushNamed(context, '/send_will');
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => RequestDataPage(title: "Willy - Request data"),
+                              ));
                         },
                         child: const Text("Send Will"),
                       ),

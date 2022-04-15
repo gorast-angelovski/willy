@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:willy/model/account.dart';
 import 'package:willy/model/user.dart';
 import 'package:willy/service/database_service.dart';
@@ -18,24 +17,31 @@ class EmailService {
     Stream<List<Account>> accountStream =
         databaseService.getUserAccounts(user.uid);
 
-    List<Account> accounts = [];
-    accountStream.map(
-        (accountList) => accountList.map((account) => accounts.add(account)));
+    // TODO: send a list of accounts
+    // List<Account> accounts
+    // List<Account> accounts = await accountStream.;
+    //     DatabaseService(uid: user.uid).userAccountsData.documents;
+    // print(accounts);
+    // Future<List<List<Account>>> accounts() async {
+    //   print(accountStream.first);
+    //   return await accountStream.toList();
+    // }
 
     String username = 'napijse@gmail.com';
-    String password = 'wrongPassword';
+    String password = 'wrongPW';
     final smtpServer = gmail(username, password);
     final message = Message()
       ..from = Address(username, 'Willy')
       ..recipients.add(user.executorEmail)
       ..subject = "Digital assets of " + user.name + " " + user.surname
-      ..text = accounts.toString();
+      ..text = accountStream.toString();
 
     try {
       final sendReport = await send(message, smtpServer);
       print('Message sent: ' + sendReport.toString());
     } on MailerException catch (e) {
       print('Message not sent.');
+      print(e);
       for (var p in e.problems) {
         print('Problem: ${p.code}: ${p.msg}');
       }

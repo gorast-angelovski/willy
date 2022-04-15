@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:willy/model/account.dart';
 import 'package:willy/model/user.dart';
 
@@ -19,6 +18,7 @@ class DatabaseService {
         .where('executorEmail', isEqualTo: executorEmail)
         .where('executorPin', isEqualTo: executorPin)
         .getDocuments();
+    print(userSnapshot.documents.isEmpty);
 
     if (userSnapshot.documents.isEmpty) {
       throw Exception("Incorrect email or pin");
@@ -40,19 +40,13 @@ class DatabaseService {
         .toList());
   }
 
-  Future updateUserExecutorData(
-      String executorEmail, String executorPin) async {
-    return await userCollection
-        .document(uid)
-        .setData({'executorPin': executorPin, 'executorEmail': executorEmail});
-  }
-
-  Future updateUserData(String name, String surname, String executorPin) async {
+  Future updateUserData(String name, String surname, String executorPin,
+      String executorEmail) async {
     return await userCollection.document(uid).setData({
       'name': name,
       'surname': surname,
       'executorPin': executorPin,
-      'executorEmail': ''
+      'executorEmail': executorEmail,
     });
   }
 

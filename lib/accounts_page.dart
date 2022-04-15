@@ -51,10 +51,13 @@ class _AccountsPageState extends State<AccountsPage> {
                     List<Account>? accounts = snapshot.data;
                     return ListView.builder(
                       itemBuilder: (ctx, index) {
-                        return AccountCard(Account(
+                        return AccountCard(
+                          Account(
                             accounts![index].getPlatform(),
                             accounts[index].getUserNameOrEmail(),
-                            accounts[index].getPassword()));
+                            accounts[index].getPassword(),
+                          ),
+                        );
                       },
                       itemCount: accounts?.length,
                     );

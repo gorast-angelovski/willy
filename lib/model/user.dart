@@ -5,11 +5,11 @@ class ApplicationUser {
 }
 
 class ApplicationUserData {
-  String uid;
-  String name;
-  String surname;
-  String executorPin;
-  String executorEmail = "";
+  final String uid;
+  final String name;
+  final String surname;
+  final String executorPin;
+  final String executorEmail;
 
   ApplicationUserData(
       {required this.uid,
