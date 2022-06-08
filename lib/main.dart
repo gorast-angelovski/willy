@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:willy/account_form.dart';
 import 'package:willy/accounts_page.dart';
 import 'package:willy/assign_executor_page.dart';
+import 'package:willy/camera_page.dart';
 import 'package:willy/images_page.dart';
 import 'package:willy/landing_page.dart';
 import 'package:willy/model/user.dart';
@@ -53,6 +54,7 @@ class MyApp extends StatelessWidget {
         '/sign-up': (context) => const SignUpPage(title: 'Willy - Sign Up'),
         '/sign-in': (context) => const SignInPage(title: 'Willy - Sign In'),
         '/landing': (context) => const LandingPage(title: 'Willy - Welcome'),
+        '/camera' : (context) => const CameraPage(cameras: []),
       },
       initialRoute: '/',
     );
